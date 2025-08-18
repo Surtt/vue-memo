@@ -1,7 +1,7 @@
 <script setup>
 import IconHeart from "../icons/icon-heart.vue";
 const { score } = defineProps({
-	score: Number,
+	score: String,
 });
 </script>
 
