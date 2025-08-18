@@ -1,6 +1,6 @@
 <script setup>
 import Header from "./components/header.vue";
-import Cart from "./components/cart.vue";
+import Card from "./components/card.vue";
 import Button from "./components/button.vue";
 const date = new Date().toLocaleString("ru", { hour12: false });
 let isFlipped = false;
@@ -16,7 +16,7 @@ const changeStatus = (v) => {
 
 <template>
   <Header />
-  <Cart
+  <Card
     card-number="06"
     front-word="apple"
     back-word="яблоко"
