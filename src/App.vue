@@ -1,12 +1,13 @@
 <script setup>
+import { ref } from "vue";
 import Header from "./components/header.vue";
 import Card from "./components/card.vue";
 import Button from "./components/button.vue";
 const date = new Date().toLocaleString("ru", { hour12: false });
-let isFlipped = false;
+const isFlipped = ref(false);
 
 const handleToggleFlip = () => {
-	isFlipped = !isFlipped;
+	isFlipped.value = !isFlipped.value;
 };
 
 const changeStatus = (v) => {
