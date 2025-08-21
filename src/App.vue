@@ -6,21 +6,28 @@ import Button from "./components/button.vue";
 const date = new Date().toLocaleString("ru", { hour12: false });
 const isFlipped = ref(false);
 
+const card = ref({
+	cardNumber: "06",
+	word: "apple",
+	translation: "яблоко",
+	state: "closed",
+	status: "pending",
+});
+
 const handleToggleFlip = () => {
 	isFlipped.value = !isFlipped.value;
+	card.value.state = "opened";
 };
 
 const changeStatus = (v) => {
-	console.log("Статус изменился", v);
+	card.value.status = v;
 };
 </script>
 
 <template>
   <Header />
   <Card
-    card-number="06"
-    front-word="apple"
-    back-word="яблоко"
+    v-bind="card"
     :is-flipped="isFlipped"
     @toggle-flip="handleToggleFlip"
     @change-status="changeStatus"

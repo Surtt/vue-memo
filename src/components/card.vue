@@ -2,16 +2,17 @@
 import IconWrong from "../icons/icon-wrong.vue";
 import IconSuccess from "../icons/icon-success.vue";
 
-const { cardNumber, frontWord, backWord } = defineProps({
+const props = defineProps({
 	cardNumber: String,
-	frontWord: String,
-	backWord: String,
-	isFlipped: Boolean,
+	word: String,
+	translation: String,
+	state: String,
 	status: String,
+	isFlipped: Boolean,
 });
 const emit = defineEmits({
 	toggleFlip: null,
-	changeStatus: (v) => v === "right" || v === "wrong",
+	changeStatus: (v) => v === "success" || v === "fail",
 });
 
 const toggleFlip = (e) => {
@@ -22,39 +23,35 @@ const toggleFlip = (e) => {
 	emit("toggleFlip");
 };
 
-function markRight(e) {
-	const card = e.target.closest(".card");
-	if (card) {
-		card.classList.add("is-right");
-		card.classList.remove("is-wrond");
-	}
-	emit("changeStatus", "right");
-}
+const markRight = () => emit("changeStatus", "success");
 
-const markWrong = (e) => {
-	const card = e.target.closest(".card");
-	if (card) {
-		card.classList.add("is-wrong");
-		card.classList.remove("is-right");
-	}
-	emit("changeStatus", "wrong");
-};
+const markWrong = () => emit("changeStatus", "fail");
 </script>
 
 <template>
-  <div class="card" :class="{ 'is-flipped': isFlipped }">
+  <div
+    class="card"
+    :class="[
+      { 'is-flipped': props.isFlipped },
+      props.status === 'success'
+        ? 'is-success'
+        : props.status === 'fail'
+          ? 'is-fail'
+          : '',
+    ]"
+  >
     <div class="card-inner">
       <div class="face front">
-        <div class="card-number">{{ cardNumber }}</div>
-        <div class="word">{{ frontWord }}</div>
+        <div class="card-number">{{ props.cardNumber }}</div>
+        <div class="word">{{ props.word }}</div>
         <button class="flip-btn" type="button" @click="toggleFlip">
           Перевернуть
         </button>
       </div>
 
       <div class="face back">
-        <div class="card-number">{{ cardNumber }}</div>
-        <div class="word">{{ backWord }}</div>
+        <div class="card-number">{{ props.cardNumber }}</div>
+        <div class="word">{{ props.translation }}</div>
         <div class="btns">
           <button class="wrong-btn" type="button" @click="markWrong">
             <IconWrong />

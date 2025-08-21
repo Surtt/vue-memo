@@ -1,11 +1,13 @@
 <script setup>
+import { ref } from "vue";
 import Score from "./score.vue";
+const score = ref(100);
 </script>
 
 <template>
   <header class="header">
     <a class="logo">Запомни слово</a>
-    <Score score="100" />
+    <Score :score />
   </header>
 </template>
 
