@@ -15,13 +15,7 @@ const emit = defineEmits({
 	changeStatus: (v) => v === "success" || v === "fail",
 });
 
-const toggleFlip = (e) => {
-	const card = e.target.closest(".card");
-	if (card) {
-		card.classList.toggle("is-flipped");
-	}
-	emit("toggleFlip");
-};
+const toggleFlip = () => emit("toggleFlip");
 
 const markRight = () => emit("changeStatus", "success");
 
@@ -51,6 +45,14 @@ const markWrong = () => emit("changeStatus", "fail");
 
       <div class="face back">
         <div class="card-number">{{ props.cardNumber }}</div>
+        <div class="answer">
+          <IconWrong v-if="props.status === 'fail'" width="39" height="39" />
+          <IconSuccess
+            v-else-if="props.status === 'success'"
+            width="39"
+            height="39"
+          />
+        </div>
         <div class="word">{{ props.translation }}</div>
         <div class="btns">
           <button class="wrong-btn" type="button" @click="markWrong">
@@ -142,5 +144,12 @@ const markWrong = () => emit("changeStatus", "fail");
   border: none;
   background-color: transparent;
   cursor: pointer;
+}
+
+.answer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 </style>
