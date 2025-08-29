@@ -1,41 +1,24 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Header from "./components/header.vue";
 import Card from "./components/card.vue";
 import Button from "./components/button.vue";
 const date = new Date().toLocaleString("ru", { hour12: false });
 const activeId = ref(null);
 
-const cards = ref([
-	{
-		cardNumber: "06",
-		word: "apple",
-		translation: "яблоко",
-		state: "closed",
+const API_URL = "http://localhost:8080/api/random-words";
+const cards = ref([]);
+
+onMounted(async () => {
+	const response = await fetch(API_URL);
+	const data = await response.json();
+	cards.value = data.map((card, index) => ({
+		...card,
 		status: "pending",
-	},
-	{
-		cardNumber: "07",
-		word: "banana",
-		translation: "банан",
 		state: "closed",
-		status: "pending",
-	},
-	{
-		cardNumber: "08",
-		word: "orange",
-		translation: "апельсин",
-		state: "closed",
-		status: "pending",
-	},
-	{
-		cardNumber: "09",
-		word: "lemon",
-		translation: "лимон",
-		state: "closed",
-		status: "pending",
-	},
-]);
+		cardNumber: String(index + 1).padStart(2, "0"),
+	}));
+});
 
 const handleToggleFlip = (cardNumber) => {
 	if (activeId.value === cardNumber) {
@@ -46,7 +29,8 @@ const handleToggleFlip = (cardNumber) => {
 };
 
 const changeStatus = (cardNumber, v) => {
-	cards.value.find((card) => card.cardNumber === cardNumber).status = v;
+	const item = cards.value.find((card) => card.cardNumber === cardNumber);
+	if (item) item.status = v;
 };
 </script>
 
@@ -68,7 +52,9 @@ const changeStatus = (cardNumber, v) => {
 
 <style scoped>
 .cards-wrapper {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(250px, 1fr));
+  gap: 107px;
+  padding: 0 62px;
 }
 </style>
