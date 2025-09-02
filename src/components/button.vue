@@ -10,7 +10,7 @@
   font-family: var(--font);
   color: var(--inverted-main-text-color);
   font-size: 24px;
-  fonte-weight: 400;
+  font-weight: 400;
   line-height: 36px;
   padding: 16px 10px;
   border-radius: 100px;
