@@ -1,4 +1,6 @@
 <script setup>
+import { inject } from "vue";
+import { scoreProvide } from "../constants.js";
 import IconWrong from "../icons/icon-wrong.vue";
 import IconSuccess from "../icons/icon-success.vue";
 
@@ -15,11 +17,23 @@ const emit = defineEmits({
 	changeStatus: (v) => v === "success" || v === "fail",
 });
 
+const score = inject(scoreProvide);
+
 const toggleFlip = () => emit("toggleFlip");
 
-const markRight = () => emit("changeStatus", "success");
+const markRight = () => {
+	emit("changeStatus", "success");
+	score.value += 10;
+};
 
-const markWrong = () => emit("changeStatus", "fail");
+const markWrong = () => {
+	emit("changeStatus", "fail");
+	if (score.value < 4) {
+		score.value = 0;
+	} else {
+		score.value -= 4;
+	}
+};
 </script>
 
 <template>
@@ -99,6 +113,11 @@ const markWrong = () => emit("changeStatus", "fail");
   display: grid;
   place-items: center;
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.front {
+  transform: rotateY(0deg);
 }
 
 .back {

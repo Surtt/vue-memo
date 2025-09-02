@@ -1,8 +1,9 @@
 <script setup>
+import { inject } from "vue";
+import { scoreProvide } from "../constants.js";
 import IconHeart from "../icons/icon-heart.vue";
-const { score } = defineProps({
-	score: Number,
-});
+
+const score = inject(scoreProvide);
 </script>
 
 <template>
