@@ -1,4 +1,6 @@
-<script setup></script>
+<script setup>
+defineProps({});
+</script>
 
 <template>
   <button class="btn"><slot /></button>
